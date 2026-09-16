@@ -80,14 +80,16 @@ Living document. Every stage gets checked off here before we move to the next. I
 ### ⚠️ Explicitly avoided
 - [x] Decided AGAINST `price_per_sqft` as input feature — direct target leakage
 
-## Stage 5 — Preprocessing Decisions (PENDING)
-- [ ] Skew check on `sqft_living`, `sqft_lot`, `sqft_above`, `sqft_basement` → log-transform if needed
-- [ ] Multicollinearity — compute VIF, decide keep/drop
-- [ ] Outlier strategy — winsorize vs keep raw
-- [ ] Scaler choice — StandardScaler vs RobustScaler (leaning RobustScaler)
-- [ ] lat/long — keep raw alongside distance features? (decision pending)
-- [ ] Confirm `grade`/`condition`/`view` stay ordinal (not one-hot)
-- [ ] Zipcode encoding strategy — target encoding (leakage-safe, post-split)
+## Stage 5 — Preprocessing Decisions (IN PROGRESS)
+- [x] Skew check on sqft_living, sqft_lot, sqft_above, sqft_basement (+ sqft_living15, sqft_lot15)
+- [x] Log-transformed all 6 → sqft_*_log versions (skew reduced from up to 13.06 down to under 1.0)
+- [x] NOTE: original (non-log) sqft columns excluded from X at Stage 6 — use _log versions
+- [x] Multicollinearity — VIF computed. sqft_living_log & sqft_above_log both >26 (severe, near-duplicate info). Decision: DROP sqft_above_log at Stage 6, keep sqft_living_log. Moderate VIF (6-7) on sqft_lot/sqft_lot15/sqft_basement — kept as-is.
+- [x] Outlier strategy — DECISION: No winsorizing. Log-transform already compresses extreme values sufficiently; tree-based models (primary approach) are robust to remaining outliers; winsorizing risked destroying genuine luxury-property signal.
+- [x] Scaler choice — DECISION: RobustScaler (uses median/IQR, not mean/std). Chosen specifically because we kept genuine outliers unwinsorized in Decision #3 — RobustScaler won't let luxury-property extremes distort scaling for the majority of "normal" houses.
+- [x] lat/long — DECISION: KEEP raw lat/long in model input, alongside distance/cluster/PCA features. Reasoning: distance-based features are direction-blind (can't distinguish north-of-center from south-of-center); raw coordinates preserve that nuance. Tree-based models tolerate the redundancy well.
+- [x] Confirmed grade/condition/view stay ordinal (numeric, no encoding). Reasoning: genuine order exists (higher = better), and King County's raw data already encodes them as ordered integers — one-hot encoding would destroy that ordering information the model can otherwise use directly.
+- [x] Zipcode encoding — DECISION: Target encoding (map each zipcode to its average log_price). Reasoning: zipcode captures administrative/socioeconomic signal (school districts, zoning) distinct from pure geometric features (location_cluster, lat/long); one-hot would add 70+ sparse columns for modest gain. MUST be computed using X_train/y_train only, post-split, then mapped onto X_test — implemented in Stage 6/7.
 
 ## Stage 6 — Data Splitting (PENDING — BLOCKING)
 - [ ] Decide: train/val/test (3-way) vs train/test + cross-validation

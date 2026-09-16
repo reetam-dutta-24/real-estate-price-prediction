@@ -41,31 +41,38 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] `log_price`
 
 ### Category 1 — Temporal
-- [ ] `sale_quarter`
-- [ ] `sale_day_of_week`
-- [ ] `is_peak_season`
-- [ ] `decade_built`
-- [ ] `renovation_decade`
-- [ ] `sale_month_sin` / `sale_month_cos` (cyclical encoding)
+- [x] `sale_quarter`
+- [x] `sale_day_of_week`
+- [x] `is_peak_season`
+- [x] `decade_built`
+- [x] `renovation_decade`
+- [x] `sale_month_sin` / `sale_month_cos` (cyclical encoding)
 
 ### Category 2 — Size & structure ratios
-- [ ] `above_ratio` (sqft_above / sqft_living)
-- [ ] `living_sqft_diff_from_neighbors`
-- [ ] `lot_sqft_diff_from_neighbors`
-- [ ] `total_rooms_estimate`
+### Category 2 — Size & structure ratios
+- [x] `above_ratio` (sqft_above / sqft_living)
+- [x] `living_sqft_diff_from_neighbors`
+- [x] `lot_sqft_diff_from_neighbors`
+- [x] `total_rooms_estimate`
 
 ### Category 3 — Quality / luxury signals
-- [ ] `is_luxury` (composite flag)
-- [ ] `luxury_score` (weighted composite)
-- [ ] `view_binary`
+- [x] `is_luxury` (composite flag)
+- [x] `luxury_score` (weighted composite)
+- [x] `view_binary`
 
 ### Category 4 — Geospatial
-- [ ] `distance_to_bellevue`
-- [ ] KMeans neighborhood clusters + cluster avg price (post-split, train-only)
+- [x] `distance_to_bellevue`
+- [x] KMeans neighborhood clusters (lat/long only, leakage-safe)
+- [ ] Cluster avg price (DEFERRED to post-split, Stage 6/7)
+- [x] 50 landmark distance features (airports, employers, universities, hospitals, parks, tourist sites, suburbs)
+- [x] PCA compression of 50 landmarks → `amenity_proximity_pc1/pc2/pc3` (95%+ variance retained in 3 components)
+- [x] NOTE: raw 50 distance_to_* columns excluded from model input (kept for EDA only) — only PCA components used
 
 ### Category 5 — Interaction features
-- [ ] `grade_x_sqft_living`
-- [ ] `age_x_renovated` (explicit numeric interaction)
+- [x] `grade_x_sqft_living`
+- [x] `age_x_renovated` (explicit numeric interaction)
+
+
 
 ### Display-only (NOT for model)
 - [ ] `city_name` via `pgeocode` (zipcode → readable location, for UI only)

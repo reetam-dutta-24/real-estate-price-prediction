@@ -92,7 +92,7 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] Zipcode encoding — DECISION: Target encoding (map each zipcode to its average log_price). Reasoning: zipcode captures administrative/socioeconomic signal (school districts, zoning) distinct from pure geometric features (location_cluster, lat/long); one-hot would add 70+ sparse columns for modest gain. MUST be computed using X_train/y_train only, post-split, then mapped onto X_test — implemented in Stage 6/7.
 
 ## Stage 6 — Data Splitting (PENDING — BLOCKING)
-- [ ] Decide: train/val/test (3-way) vs train/test + cross-validation
+- [x] Split strategy — DECISION: Train/Test split (80/20) + 5-Fold Cross-Validation on training data for model comparison/tuning. Test set locked away, touched only once at final evaluation. Chosen over 3-way split for more stable, less luck-dependent validation given moderate dataset size (~21.6K rows).
 - [ ] Implement `split_data()` in `src/preprocess.py`
 
 ## Stage 7 — Build the Pipeline

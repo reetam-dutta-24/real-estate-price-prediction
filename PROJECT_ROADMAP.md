@@ -132,8 +132,13 @@ Living document. Every stage gets checked off here before we move to the next. I
 ## Stage 15 — Backend API
 - [ ] FastAPI service, `/predict` endpoint
 
-## Stage 16 — Frontend UI
-- [ ] Streamlit app — form input, map visualization, prediction display
+## Stage 16 (Preview) — Frontend UI ✅ SCAFFOLDED
+- [x] Multi-page Streamlit app (Home, Predict, Market Explorer, Model Insights, About)
+- [x] Custom theme (Pacific Northwest palette, Fraunces + Inter typography)
+- [x] Custom sidebar (logo, nav, how-to-use, no default Streamlit nav)
+- [x] KPI cards, welcome boxes, skeleton loading states
+- [x] FastAPI backend scaffold with placeholder /predict endpoint
+- [ ] NOTE: Predict/Model Insights pages use placeholder logic — real model wiring happens at Stage 15
 
 ## Stage 17 — Deployment
 - [ ] Deploy backend + frontend (Render/Railway/HF Spaces)

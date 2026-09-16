@@ -5,7 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import RobustScaler, OneHotEncoder
 
 def load_data(path="data/raw/kc_house_data.csv"):
     """Load the raw King County housing dataset."""
@@ -243,3 +244,22 @@ def split_data(df, target='log_price', test_size=0.2, random_state=42):
         X, y, test_size=test_size, random_state=random_state
     )
     return X_train, X_test, y_train, y_test
+
+def build_preprocessor(X_train):
+    """
+    Stage 7: Builds the ColumnTransformer that scales numeric features,
+    passes through binary flags untouched, and one-hot encodes location_cluster.
+    Must be fit only on X_train to avoid leakage.
+    """
+    binary_cols = ['waterfront', 'was_renovated', 'has_basement',
+                   'is_peak_season', 'view_binary', 'is_luxury']
+    categorical_cols = ['location_cluster']
+    numeric_cols = [c for c in X_train.columns if c not in binary_cols + categorical_cols]
+
+    preprocessor = ColumnTransformer(transformers=[
+        ('num', RobustScaler(), numeric_cols),
+        ('bin', 'passthrough', binary_cols),
+        ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_cols)
+    ])
+
+    return preprocessor

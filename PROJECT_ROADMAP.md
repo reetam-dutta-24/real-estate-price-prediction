@@ -92,10 +92,11 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] Zipcode encoding — DECISION: Target encoding (map each zipcode to its average log_price). Reasoning: zipcode captures administrative/socioeconomic signal (school districts, zoning) distinct from pure geometric features (location_cluster, lat/long); one-hot would add 70+ sparse columns for modest gain. MUST be computed using X_train/y_train only, post-split, then mapped onto X_test — implemented in Stage 6/7.
 
 ## Stage 6 — Data Splitting ✅ CLOSED
-- [x] Split strategy: 80/20 train/test, 5-fold CV for tuning
-- [x] src/preprocess.py fully rebuilt — complete pipeline reproducible from source (109 engineered columns in df, 45 final features in X)
-- [x] Verified: X_train (17290, 45), X_test (4323, 45)
-
+- [x] 80/20 train/test split (17290 / 4323 rows)
+- [x] Zipcode target encoding (leakage-safe, 0 missing in test)
+- [x] Cluster average price encoding (leakage-safe, 0 missing in test)
+- [x] Raw zipcode column dropped (fully represented by zipcode_encoded)
+- [x] location_cluster kept as categorical feature (low cardinality, tree-model friendly)
 
 
 ## Stage 7 — Build the Pipeline

@@ -91,9 +91,12 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] Confirmed grade/condition/view stay ordinal (numeric, no encoding). Reasoning: genuine order exists (higher = better), and King County's raw data already encodes them as ordered integers — one-hot encoding would destroy that ordering information the model can otherwise use directly.
 - [x] Zipcode encoding — DECISION: Target encoding (map each zipcode to its average log_price). Reasoning: zipcode captures administrative/socioeconomic signal (school districts, zoning) distinct from pure geometric features (location_cluster, lat/long); one-hot would add 70+ sparse columns for modest gain. MUST be computed using X_train/y_train only, post-split, then mapped onto X_test — implemented in Stage 6/7.
 
-## Stage 6 — Data Splitting (PENDING — BLOCKING)
-- [x] Split strategy — DECISION: Train/Test split (80/20) + 5-Fold Cross-Validation on training data for model comparison/tuning. Test set locked away, touched only once at final evaluation. Chosen over 3-way split for more stable, less luck-dependent validation given moderate dataset size (~21.6K rows).
-- [ ] Implement `split_data()` in `src/preprocess.py`
+## Stage 6 — Data Splitting ✅ CLOSED
+- [x] Split strategy: 80/20 train/test, 5-fold CV for tuning
+- [x] src/preprocess.py fully rebuilt — complete pipeline reproducible from source (109 engineered columns in df, 45 final features in X)
+- [x] Verified: X_train (17290, 45), X_test (4323, 45)
+
+
 
 ## Stage 7 — Build the Pipeline
 - [ ] `ColumnTransformer` (numeric scaling + categorical encoding)

@@ -112,10 +112,12 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] Baseline R²: ~0.0000 (as expected — confirms calculation correctness)
 - [x] Baseline MAE in real dollars: ~$229,795 — the floor every real model must beat
 
-## Stage 9 — Model Training
-- [ ] Linear Regression (baseline-ish)
-- [ ] Random Forest
-- [ ] Gradient Boosting (XGBoost / LightGBM)
+## Stage 9 — Model Training ✅ CLOSED
+- [x] Trained Linear Regression, Random Forest, XGBoost with 5-fold CV
+- [x] CV RMSE (log scale): Linear 0.1757, RF 0.1710, XGBoost 0.1663
+- [x] Test set dollar MAE: Linear $75,884 | RF $68,481 | XGBoost $66,631
+- [x] XGBoost selected as strongest performer — proceeding to Stage 11 tuning
+- [x] Baseline comparison: 71% error reduction vs. naive mean-guess baseline
 
 ## Stage 10 — Evaluation
 - [ ] RMSE, MAE, R² across models

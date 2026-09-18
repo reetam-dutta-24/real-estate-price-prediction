@@ -99,13 +99,18 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] location_cluster kept as categorical feature (low cardinality, tree-model friendly)
 
 
-## Stage 7 — Build the Pipeline
-- [ ] `ColumnTransformer` (numeric scaling + categorical encoding)
-- [ ] Wrap in `sklearn.Pipeline`
-- [ ] Verify no leakage (fit only on train)
+## Stage 7 — Build the Pipeline ✅ CLOSED
+- [x] ColumnTransformer built (numeric → RobustScaler, binary → passthrough, location_cluster → OneHotEncoder)
+- [x] build_preprocessor() added to src/preprocess.py
+- [x] Verified leakage-safe: fit_transform on X_train only, transform on X_test
+- [x] Full pipeline confirmed reproducible end-to-end from src/ (17290,60) / (4323,60)
 
-## Stage 8 — Baseline Model
-- [ ] Dumb baseline (predict mean) — establish the floor to beat
+## Stage 8 — Baseline Model ✅ CLOSED
+- [x] Dumb baseline (predict mean log_price) established
+- [x] Baseline RMSE (log scale): 0.5340
+- [x] Baseline MAE (log scale): 0.4187
+- [x] Baseline R²: ~0.0000 (as expected — confirms calculation correctness)
+- [x] Baseline MAE in real dollars: ~$229,795 — the floor every real model must beat
 
 ## Stage 9 — Model Training
 - [ ] Linear Regression (baseline-ish)

@@ -160,13 +160,15 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] Per-prediction SHAP explanation returned alongside price estimate
 - [x] Verified end-to-end: real prediction + explanation rendering correctly in Streamlit UI
 
-## Stage 16 (Preview) — Frontend UI ✅ SCAFFOLDED
-- [x] Multi-page Streamlit app (Home, Predict, Market Explorer, Model Insights, About)
-- [x] Custom theme (Pacific Northwest palette, Fraunces + Inter typography)
-- [x] Custom sidebar (logo, nav, how-to-use, no default Streamlit nav)
-- [x] KPI cards, welcome boxes, skeleton loading states
-- [x] FastAPI backend scaffold with placeholder /predict endpoint
-- [ ] NOTE: Predict/Model Insights pages use placeholder logic — real model wiring happens at Stage 15
+## Stage 16 — Frontend UI (IN PROGRESS)
+- [x] Multi-page Streamlit app restructured: Home, Predict (step wizard), Results (dedicated route), Market Explorer, Model Insights, About
+- [x] Predict rebuilt as 4-step guided wizard with session-state persistence
+- [x] Results page: valuation card, SHAP factor breakdown, percentile meter, confidence explainer, comparable sales, neighborhood stats, amenities map with pins, market comparison chart
+- [x] Real bordered card system (fixed empty-box bug from st.markdown div mismatch)
+- [x] Gradient backgrounds, shadows, hover lift added to cards
+- [x] Navbar removed, sidebar restructured (logo, nav, "How to use" moved to Home)
+- [x] Market Explorer and Model Insights updated with real trained-model results
+- [ ] Further visual polish ongoing
 
 ## Stage 17 — Deployment
 - [ ] Deploy backend + frontend (Render/Railway/HF Spaces)

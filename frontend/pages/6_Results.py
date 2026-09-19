@@ -1,0 +1,132 @@
+import streamlit as st
+import pandas as pd
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from theme import (inject_theme, render_sidebar, card, factor_bars, percentile_meter,
+                    list_row, pin_map)
+
+st.set_page_config(page_title="Valuation Report", layout="wide")
+st.markdown("💰 **Price per sqft**")
+st.markdown("📊 **Market position**")
+st.markdown("🎯 **How confident is this estimate?**")
+st.markdown("#### 🏘️ Neighborhood Snapshot")
+st.markdown("#### 🏠 Comparable Nearby Sales")
+st.markdown("#### 📍 Nearby Amenities")
+st.markdown("🔍 **What's driving this estimate**")
+st.markdown("#### ⚖️ This Home vs. the Market")
+st.markdown("ℹ️ **About this estimate**")
+inject_theme()
+render_sidebar()
+
+if "prediction_result" not in st.session_state:
+    st.title("No estimate yet")
+    st.write("Run the predictor first to see a full valuation report.")
+    st.page_link("pages/1_Predict.py", label="Go to Predictor")
+    st.stop()
+
+r = st.session_state.prediction_result
+area = st.session_state.get("prediction_area", "")
+
+top1, top2 = st.columns([3, 1])
+with top1:
+    st.page_link("pages/1_Predict.py", label="← Back to Predictor")
+with top2:
+    if st.button("Start New Estimate", use_container_width=True):
+        for k in ["prediction_result", "predict_step"]:
+            st.session_state.pop(k, None)
+        st.switch_page("pages/1_Predict.py")
+
+st.title(f"Valuation Report — {area}")
+
+col_val, col_factors = st.columns([1.1, 1])
+
+with col_val:
+    st.markdown(f"""
+    <div class="valuation-card">
+        <div class="valuation-label">Estimated Value</div>
+        <div class="valuation-price">${r['predicted_price']:,.0f}</div>
+        <div class="valuation-note">Likely range: ${r['price_low']:,.0f} – ${r['price_high']:,.0f}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    m1, m2 = st.columns(2)
+    with m1:
+        with card("psf", accent="brass"):
+            st.markdown("**Price per sqft**")
+            st.markdown(f"### ${r['price_per_sqft']:,.0f}")
+    with m2:
+        with card("pctl", accent="teal"):
+            st.markdown("**Market position**")
+            percentile_meter(r['percentile'], f"More expensive than {r['percentile']:.0f}% of King County homes")
+
+    with card("confidence", accent="moss"):
+        st.markdown("**How confident is this estimate?**")
+        st.write("This model has a typical error margin of about $62,000 on unseen properties "
+                  "(measured on 4,323 held-out test homes it never trained on).")
+        st.markdown(f"""
+        <div class="confidence-bar"><div class="confidence-fill" style="width:91%"></div></div>
+        <div style="font-size:0.82rem;color:#47564D;">Explains ~91% of price variation across King County (R² = 0.91)</div>
+        """, unsafe_allow_html=True)
+
+with col_factors:
+    with card("factors", accent="brass"):
+        st.markdown("**What's driving this estimate**")
+        factor_bars(r.get("factors", []))
+
+st.divider()
+
+with card("comparison", accent="clay"):
+    st.markdown("#### This Home vs. the Market")
+    comp_data = pd.DataFrame({
+        "Price": [r['predicted_price'], r.get('neighborhood', {}).get('avg_price', 0), r.get('county_median_price', 0)]
+    }, index=["This Home", f"{area} Average", "King County Median"])
+    st.bar_chart(comp_data, color="#A9782F")
+
+st.divider()
+
+col_left, col_right = st.columns(2)
+
+with col_left:
+    with card("neighborhood", accent="teal"):
+        st.markdown("#### Neighborhood Snapshot")
+        n = r.get("neighborhood")
+        if n:
+            list_row("Average sale price", f"{area}, all sales", f"${n['avg_price']:,.0f}")
+            list_row("Average living area", f"{area}, all sales", f"{n['avg_sqft']:,.0f} sqft")
+            list_row("Historical sales recorded", f"{area}", f"{n['sale_count']:,}")
+        else:
+            st.info("No historical sales found for this zipcode.")
+
+    with card("comparables", accent="brass"):
+        st.markdown("#### Comparable Nearby Sales")
+        for comp in r.get("comparables", []):
+            list_row(
+                f"${comp['price']:,.0f}",
+                f"{comp['bedrooms']:.0f} bed · {comp['bathrooms']:.1f} bath · {comp['sqft_living']:,.0f} sqft",
+                f"{comp['distance_km']:.1f} km away"
+            )
+
+with col_right:
+    with card("amenities-map", accent="moss"):
+        st.markdown("#### Nearby Amenities")
+        landmarks = r.get("nearby_landmarks", [])
+        house_lat = st.session_state.get("lat", 47.6062)
+        house_long = st.session_state.get("long", -122.3321)
+        pin_map(house_lat, house_long, landmarks, height=260)
+
+    with card("amenities-list", accent="teal"):
+        for l in r.get("nearby_landmarks", []):
+            list_row(l["name"], l["category"], f"{l['distance_km']:.1f} km")
+
+st.divider()
+
+with card("export", accent="clay"):
+    c1, c2 = st.columns([2, 1])
+    with c1:
+        st.markdown("**About this estimate**")
+        st.write("Generated by a tuned XGBoost model trained on 21,613 King County sales "
+                 "(test R² = 0.91, median error ≈ $62K). Estimates are less precise for luxury "
+                 "properties, where price variance is higher and historical examples are sparser.")
+        st.page_link("pages/3_Model_Insights.py", label="See full model performance")
+    with c2:
+        st.markdown('<a href="#" onclick="window.print(); return false;" class="print-btn">Print / Save as PDF</a>', unsafe_allow_html=True)

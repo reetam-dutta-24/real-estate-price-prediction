@@ -125,8 +125,15 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] Worst-10 errors — all are high-value properties ($900K–$4.5M), confirming luxury segment as model's primary weak point
 - [x] FINDING: Model performs strongly on mainstream market (<$1M), less precisely on luxury homes — attributed to lower representation + higher price variance in that segment
 
-## Stage 11 — Hyperparameter Tuning
-- [ ] GridSearch / RandomSearch / Optuna
+## Stage 11 — Hyperparameter Tuning ✅ CLOSED
+- [x] RandomizedSearchCV on XGBoost: 30 candidates × 5-fold CV = 150 fits
+- [x] Best params: n_estimators=500, max_depth=7, learning_rate=0.05, subsample=0.8, colsample_bytree=0.7
+- [x] Best CV RMSE: 0.1583 (vs 0.1663 default — ~4.8% improvement)
+- [x] FINAL test set evaluation (touched once, after tuning complete):
+      - Test RMSE (log): 0.1558
+      - Test MAE (dollars): $62,141
+      - Test R²: 0.9148
+- [x] Total improvement over baseline: 73% reduction in dollar error
 
 ## Stage 12 — Model Interpretation
 - [ ] Feature importance

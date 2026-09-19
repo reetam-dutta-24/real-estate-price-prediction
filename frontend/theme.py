@@ -182,7 +182,92 @@ def inject_theme():
         background-color: #1E2E27;
         color: #F5F7F4 !important;
     }
+        /* ---------- FORM SECTIONS ---------- */
+    .form-section-title {
+        font-family: 'Fraunces', serif;
+        font-size: 1.05rem;
+        color: #16231D;
+        margin: 0 0 0.2rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .form-section-sub { font-size: 0.82rem; color: #7C8C80; margin-bottom: 0.9rem; }
+    .field-hint {
+        font-size: 0.78rem;
+        color: #7C8C80;
+        margin-top: -0.6rem;
+        margin-bottom: 0.6rem;
+    }
 
+    /* ---------- SPEC SUMMARY CARD ---------- */
+    .spec-card {
+        background: #FFFFFF;
+        border: 1px solid #D9DED4;
+        padding: 1.3rem 1.4rem;
+        position: sticky;
+        top: 1rem;
+    }
+    .spec-card-title {
+        font-family: 'Fraunces', serif;
+        font-size: 1rem;
+        color: #16231D;
+        margin-bottom: 0.9rem;
+        padding-bottom: 0.7rem;
+        border-bottom: 1px solid #D9DED4;
+    }
+    .spec-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.86rem;
+        padding: 0.35rem 0;
+        color: #47564D;
+    }
+    .spec-row span:last-child { color: #16231D; font-weight: 600; }
+    .spec-pill {
+        display: inline-block;
+        background: #EEF2ED;
+        border: 1px solid #D9DED4;
+        color: #47564D;
+        padding: 0.15rem 0.55rem;
+        font-size: 0.72rem;
+        margin-top: 0.5rem;
+    }
+
+    /* ---------- VALUATION RESULT CARD ---------- */
+    .valuation-card {
+        background: #FFFFFF;
+        border: 1px solid #D9DED4;
+        border-top: 4px solid #A9782F;
+        padding: 1.8rem 2rem;
+        text-align: left;
+        margin-bottom: 1rem;
+    }
+    .valuation-label { font-size: 0.8rem; color: #7C8C80; text-transform: uppercase; letter-spacing: 0.05em; }
+    .valuation-price {
+        font-family: 'Fraunces', serif;
+        font-size: 2.8rem;
+        font-weight: 600;
+        color: #16231D;
+        line-height: 1.15;
+        margin: 0.2rem 0 0.4rem 0;
+    }
+    .valuation-note { font-size: 0.85rem; color: #47564D; }
+
+    /* ---------- FACTOR BARS (SHAP breakdown) ---------- */
+    .factor-row { margin-bottom: 0.7rem; }
+    .factor-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: #16231D;
+        margin-bottom: 0.25rem;
+    }
+    .factor-track { background: #EEF2ED; height: 6px; width: 100%; position: relative; }
+    .factor-fill { height: 6px; position: absolute; top: 0; }
+    .factor-fill.up { background: #A9782F; left: 50%; }
+    .factor-fill.down { background: #2F6E68; right: 50%; }
+    .factor-center { position: absolute; left: 50%; top: -3px; width: 1px; height: 12px; background: #D9DED4; }
     @media (max-width: 640px) {
         .section-card { padding: 1.1rem 1.2rem; }
         .kpi-number { font-size: 1.5rem; }
@@ -264,3 +349,30 @@ def section_card_open(accent="brass"):
 
 def section_card_close():
     st.markdown('</div>', unsafe_allow_html=True)
+    
+    
+def spec_card(specs):
+    """specs: list of (label, value) tuples"""
+    html = '<div class="spec-card"><div class="spec-card-title">Property Snapshot</div>'
+    for label, value in specs:
+        html += f'<div class="spec-row"><span>{label}</span><span>{value}</span></div>'
+    html += '</div>'
+    st.markdown(html, unsafe_allow_html=True)
+
+
+def factor_bars(factors):
+    """factors: list of dicts {label, direction ('up'/'down'), magnitude (0-1)}"""
+    html = ""
+    for f in factors:
+        width = max(f['magnitude'] * 50, 4)
+        arrow = "↑" if f['direction'] == 'up' else "↓"
+        html += f"""
+        <div class="factor-row">
+            <div class="factor-label"><span>{f['label']}</span><span>{arrow}</span></div>
+            <div class="factor-track">
+                <div class="factor-center"></div>
+                <div class="factor-fill {f['direction']}" style="width:{width}%"></div>
+            </div>
+        </div>
+        """
+    st.markdown(html, unsafe_allow_html=True)

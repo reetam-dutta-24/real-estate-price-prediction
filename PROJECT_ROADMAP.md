@@ -153,8 +153,12 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] Verified: predictions from reloaded objects match original exactly (np.allclose = True)
 - [x] Model metadata saved to models/model_metadata.json (params, metrics, dataset size)
 
-## Stage 15 — Backend API
-- [ ] FastAPI service, `/predict` endpoint
+## Stage 15 — Backend API ✅ CLOSED
+- [x] FastAPI /predict endpoint loads preprocessor, model, kmeans, pca_model, pca_scaler
+- [x] Fixed critical bug: price column assumption in engineer_core_features() (inference has no price)
+- [x] Fixed critical bug: KMeans/PCA were re-fitting per-request instead of reusing fitted training-time objects
+- [x] Per-prediction SHAP explanation returned alongside price estimate
+- [x] Verified end-to-end: real prediction + explanation rendering correctly in Streamlit UI
 
 ## Stage 16 (Preview) — Frontend UI ✅ SCAFFOLDED
 - [x] Multi-page Streamlit app (Home, Predict, Market Explorer, Model Insights, About)

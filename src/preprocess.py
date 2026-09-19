@@ -5,8 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import RobustScaler, OneHotEncoder
+
 
 def load_data(path="data/raw/kc_house_data.csv"):
     """Load the raw King County housing dataset."""
@@ -25,7 +24,6 @@ def clean_data(df):
     df['bedrooms'] = df['bedrooms'].fillna(df['bedrooms'].median())
     df['bathrooms'] = df['bathrooms'].fillna(df['bathrooms'].median())
 
-    # Known data-entry error: 33 bedrooms -> 3
     df.loc[df['bedrooms'] == 33, 'bedrooms'] = 3
 
     return df
@@ -59,7 +57,8 @@ def engineer_core_features(df):
     df['sqft_ratio'] = df['sqft_living'] / df['sqft_lot']
     df['bed_bath_ratio'] = df['bedrooms'] / df['bathrooms'].replace(0, 1)
 
-    df['log_price'] = np.log1p(df['price'])
+    if 'price' in df.columns:
+        df['log_price'] = np.log1p(df['price'])
 
     return df
 
@@ -102,89 +101,109 @@ def engineer_luxury_features(df):
     return df
 
 
-def engineer_geospatial_features(df, n_clusters=15):
-    """Category 4: Geospatial — Bellevue distance, KMeans clusters, 50 landmarks + PCA."""
+def fit_location_clusters(df, n_clusters=15):
+    """Fits KMeans on lat/long. Call ONCE on training data; save the returned model."""
+    coords = df[['lat', 'long']]
+    kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
+    kmeans.fit(coords)
+    return kmeans
+
+
+def apply_location_clusters(df, kmeans_model):
+    """Assigns cluster labels using an ALREADY-FITTED KMeans model. Safe for 1 row or many."""
+    coords = df[['lat', 'long']]
+    df['location_cluster'] = kmeans_model.predict(coords)
+    return df
+
+
+LANDMARKS = {
+    'seatac_airport': (47.4502, -122.3088),
+    'boeing_field': (47.5301, -122.3018),
+    'university_of_washington_station': (47.6497, -122.3039),
+    'amazon_hq_seattle': (47.6221, -122.3365),
+    'microsoft_redmond': (47.6396, -122.1281),
+    'boeing_everett': (47.9142, -122.2777),
+    'google_kirkland': (47.6769, -122.1959),
+    'expedia_seattle': (47.6156, -122.3861),
+    'university_of_washington': (47.6553, -122.3035),
+    'seattle_university': (47.6086, -122.3138),
+    'bellevue_college': (47.5786, -122.1500),
+    'harborview_medical_center': (47.6041, -122.3238),
+    'uw_medical_center': (47.6493, -122.3084),
+    'seattle_childrens_hospital': (47.6626, -122.2820),
+    'overlake_medical_center': (47.6157, -122.1875),
+    'evergreen_health_medical_center': (47.7012, -122.2029),
+    'pike_place_market': (47.6097, -122.3422),
+    'downtown_bellevue': (47.6101, -122.2015),
+    'downtown_kirkland': (47.6769, -122.2059),
+    'downtown_redmond': (47.6740, -122.1215),
+    'downtown_renton': (47.4829, -122.2171),
+    'downtown_kent': (47.3809, -122.2348),
+    'downtown_auburn': (47.3073, -122.2285),
+    'downtown_issaquah': (47.5301, -122.0326),
+    'bellevue_square': (47.6161, -122.2042),
+    'westfield_southcenter': (47.4589, -122.2586),
+    'alderwood_mall': (47.8399, -122.2761),
+    'discovery_park': (47.6613, -122.4152),
+    'woodland_park_zoo': (47.6685, -122.3541),
+    'alki_beach': (47.5813, -122.4098),
+    'lake_sammamish': (47.6003, -122.0426),
+    'lake_washington_kirkland': (47.6769, -122.2059),
+    'cougar_mountain': (47.5301, -122.1215),
+    'mercer_slough_nature_park': (47.5893, -122.2093),
+    'gene_coulon_park': (47.5031, -122.2001),
+    'space_needle': (47.6205, -122.3493),
+    'seattle_art_museum': (47.6075, -122.3382),
+    'climate_pledge_arena': (47.6221, -122.3540),
+    'lumen_field': (47.5952, -122.3316),
+    't_mobile_park': (47.5914, -122.3325),
+    'chihuly_garden_and_glass': (47.6209, -122.3505),
+    'downtown_shoreline': (47.7557, -122.3419),
+    'downtown_federal_way': (47.3223, -122.3126),
+    'downtown_burien': (47.4704, -122.3468),
+    'mercer_island_town_center': (47.5707, -122.2221),
+    'downtown_tukwila': (47.4740, -122.2610),
+    'sammamish_town_center': (47.6163, -122.0356),
+    'newcastle_wa': (47.5352, -122.1637),
+    'north_bend_wa': (47.4931, -121.7869),
+    'vashon_island': (47.4459, -122.4638),
+    'snoqualmie_falls': (47.5417, -121.8375),
+}
+
+
+def engineer_geospatial_features(df, n_clusters=15, kmeans_model=None, pca_model=None, pca_scaler=None):
+    """
+    Category 4: Geospatial — Bellevue distance, KMeans clusters, 50 landmarks + PCA.
+    Pass kmeans_model/pca_model/pca_scaler (already fitted) at inference time.
+    If not provided, fits fresh (training-time behavior).
+    """
     bellevue_lat, bellevue_lon = 47.6101, -122.2015
     df['distance_to_bellevue'] = haversine_distance(df['lat'], df['long'], bellevue_lat, bellevue_lon)
 
-    # KMeans location clusters (lat/long only — leakage-safe, no price involved)
-    coords = df[['lat', 'long']]
-    kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
-    df['location_cluster'] = kmeans.fit_predict(coords)
+    if kmeans_model is None:
+        kmeans_model = fit_location_clusters(df, n_clusters=n_clusters)
+    df = apply_location_clusters(df, kmeans_model)
 
-    # 50 landmark distances
-    landmarks = {
-        'seatac_airport': (47.4502, -122.3088),
-        'boeing_field': (47.5301, -122.3018),
-        'university_of_washington_station': (47.6497, -122.3039),
-        'amazon_hq_seattle': (47.6221, -122.3365),
-        'microsoft_redmond': (47.6396, -122.1281),
-        'boeing_everett': (47.9142, -122.2777),
-        'google_kirkland': (47.6769, -122.1959),
-        'expedia_seattle': (47.6156, -122.3861),
-        'university_of_washington': (47.6553, -122.3035),
-        'seattle_university': (47.6086, -122.3138),
-        'bellevue_college': (47.5786, -122.1500),
-        'harborview_medical_center': (47.6041, -122.3238),
-        'uw_medical_center': (47.6493, -122.3084),
-        'seattle_childrens_hospital': (47.6626, -122.2820),
-        'overlake_medical_center': (47.6157, -122.1875),
-        'evergreen_health_medical_center': (47.7012, -122.2029),
-        'pike_place_market': (47.6097, -122.3422),
-        'downtown_bellevue': (47.6101, -122.2015),
-        'downtown_kirkland': (47.6769, -122.2059),
-        'downtown_redmond': (47.6740, -122.1215),
-        'downtown_renton': (47.4829, -122.2171),
-        'downtown_kent': (47.3809, -122.2348),
-        'downtown_auburn': (47.3073, -122.2285),
-        'downtown_issaquah': (47.5301, -122.0326),
-        'bellevue_square': (47.6161, -122.2042),
-        'westfield_southcenter': (47.4589, -122.2586),
-        'alderwood_mall': (47.8399, -122.2761),
-        'discovery_park': (47.6613, -122.4152),
-        'woodland_park_zoo': (47.6685, -122.3541),
-        'alki_beach': (47.5813, -122.4098),
-        'lake_sammamish': (47.6003, -122.0426),
-        'lake_washington_kirkland': (47.6769, -122.2059),
-        'cougar_mountain': (47.5301, -122.1215),
-        'mercer_slough_nature_park': (47.5893, -122.2093),
-        'gene_coulon_park': (47.5031, -122.2001),
-        'space_needle': (47.6205, -122.3493),
-        'seattle_art_museum': (47.6075, -122.3382),
-        'climate_pledge_arena': (47.6221, -122.3540),
-        'lumen_field': (47.5952, -122.3316),
-        't_mobile_park': (47.5914, -122.3325),
-        'chihuly_garden_and_glass': (47.6209, -122.3505),
-        'downtown_shoreline': (47.7557, -122.3419),
-        'downtown_federal_way': (47.3223, -122.3126),
-        'downtown_burien': (47.4704, -122.3468),
-        'mercer_island_town_center': (47.5707, -122.2221),
-        'downtown_tukwila': (47.4740, -122.2610),
-        'sammamish_town_center': (47.6163, -122.0356),
-        'newcastle_wa': (47.5352, -122.1637),
-        'north_bend_wa': (47.4931, -121.7869),
-        'vashon_island': (47.4459, -122.4638),
-        'snoqualmie_falls': (47.5417, -121.8375),
-    }
-
-    for name, (lat, lon) in landmarks.items():
+    for name, (lat, lon) in LANDMARKS.items():
         df[f'distance_to_{name}'] = haversine_distance(df['lat'], df['long'], lat, lon)
 
-    # PCA compression of the 50 landmark distances
     distance_cols = [c for c in df.columns if c.startswith('distance_to_')
                       and c not in ['distance_to_seattle', 'distance_to_bellevue']]
 
-    scaler = StandardScaler()
-    distance_scaled = scaler.fit_transform(df[distance_cols])
-
-    pca = PCA(n_components=3, random_state=42)
-    distance_pca = pca.fit_transform(distance_scaled)
+    if pca_scaler is None or pca_model is None:
+        pca_scaler = StandardScaler()
+        distance_scaled = pca_scaler.fit_transform(df[distance_cols])
+        pca_model = PCA(n_components=3, random_state=42)
+        distance_pca = pca_model.fit_transform(distance_scaled)
+    else:
+        distance_scaled = pca_scaler.transform(df[distance_cols])
+        distance_pca = pca_model.transform(distance_scaled)
 
     df['amenity_proximity_pc1'] = distance_pca[:, 0]
     df['amenity_proximity_pc2'] = distance_pca[:, 1]
     df['amenity_proximity_pc3'] = distance_pca[:, 2]
 
-    return df
+    return df, kmeans_model, pca_model, pca_scaler
 
 
 def engineer_interaction_features(df):
@@ -214,17 +233,43 @@ def add_city_names(df):
     return df
 
 
-def engineer_features(df):
-    """Runs ALL feature engineering steps in the correct order."""
+def engineer_features(df, kmeans_model=None, pca_model=None, pca_scaler=None, add_city=True):
+    print("RUNNING NEW VERSION")
     df = engineer_core_features(df)
     df = engineer_temporal_features(df)
     df = engineer_size_features(df)
     df = engineer_luxury_features(df)
-    df = engineer_geospatial_features(df)
+    df, kmeans_model, pca_model, pca_scaler = engineer_geospatial_features(
+        df, kmeans_model=kmeans_model, pca_model=pca_model, pca_scaler=pca_scaler
+    )
     df = engineer_interaction_features(df)
     df = apply_log_transforms(df)
-    df = add_city_names(df)
-    return df
+    if add_city:
+        df = add_city_names(df)
+    return df, kmeans_model, pca_model, pca_scaler
+
+
+def build_preprocessor(X_train):
+    """
+    Stage 7: Builds the ColumnTransformer that scales numeric features,
+    passes through binary flags untouched, and one-hot encodes location_cluster.
+    Must be fit only on X_train to avoid leakage.
+    """
+    from sklearn.compose import ColumnTransformer
+    from sklearn.preprocessing import RobustScaler, OneHotEncoder
+
+    binary_cols = ['waterfront', 'was_renovated', 'has_basement',
+                   'is_peak_season', 'view_binary', 'is_luxury']
+    categorical_cols = ['location_cluster']
+    numeric_cols = [c for c in X_train.columns if c not in binary_cols + categorical_cols]
+
+    preprocessor = ColumnTransformer(transformers=[
+        ('num', RobustScaler(), numeric_cols),
+        ('bin', 'passthrough', binary_cols),
+        ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_cols)
+    ])
+
+    return preprocessor
 
 
 def split_data(df, target='log_price', test_size=0.2, random_state=42):
@@ -244,22 +289,3 @@ def split_data(df, target='log_price', test_size=0.2, random_state=42):
         X, y, test_size=test_size, random_state=random_state
     )
     return X_train, X_test, y_train, y_test
-
-def build_preprocessor(X_train):
-    """
-    Stage 7: Builds the ColumnTransformer that scales numeric features,
-    passes through binary flags untouched, and one-hot encodes location_cluster.
-    Must be fit only on X_train to avoid leakage.
-    """
-    binary_cols = ['waterfront', 'was_renovated', 'has_basement',
-                   'is_peak_season', 'view_binary', 'is_luxury']
-    categorical_cols = ['location_cluster']
-    numeric_cols = [c for c in X_train.columns if c not in binary_cols + categorical_cols]
-
-    preprocessor = ColumnTransformer(transformers=[
-        ('num', RobustScaler(), numeric_cols),
-        ('bin', 'passthrough', binary_cols),
-        ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_cols)
-    ])
-
-    return preprocessor

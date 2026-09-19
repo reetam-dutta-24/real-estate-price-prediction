@@ -135,9 +135,11 @@ Living document. Every stage gets checked off here before we move to the next. I
       - Test R²: 0.9148
 - [x] Total improvement over baseline: 73% reduction in dollar error
 
-## Stage 12 — Model Interpretation
-- [ ] Feature importance
-- [ ] SHAP values
+## Stage 12 — Model Interpretation ✅ CLOSED
+- [x] Feature importance: zipcode_encoded, is_luxury, grade_x_sqft_living, luxury_score, cluster_avg_price rank in top 5 — validates engineered features over raw columns
+- [x] SHAP summary plot generated and read correctly (direction vs magnitude)
+- [x] Confirmed model learned sensible real-world relationships (high zipcode value/grade/luxury → higher predicted price)
+- [x] Single-prediction SHAP force plot generated (explains individual predictions — reusable concept for deployed app's "why this price" feature)
 
 ## Stage 13 — Experiment Tracking
 - [ ] MLflow setup, log experiments

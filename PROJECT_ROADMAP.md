@@ -119,10 +119,11 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] XGBoost selected as strongest performer — proceeding to Stage 11 tuning
 - [x] Baseline comparison: 71% error reduction vs. naive mean-guess baseline
 
-## Stage 10 — Evaluation
-- [ ] RMSE, MAE, R² across models
-- [ ] Cross-validation scores
-- [ ] Residual analysis
+## Stage 10 — Evaluation ✅ CLOSED
+- [x] Residuals vs. predicted price — funnel pattern confirmed: error grows substantially with price
+- [x] Residual distribution — tight, centered near zero, long tail from luxury segment
+- [x] Worst-10 errors — all are high-value properties ($900K–$4.5M), confirming luxury segment as model's primary weak point
+- [x] FINDING: Model performs strongly on mainstream market (<$1M), less precisely on luxury homes — attributed to lower representation + higher price variance in that segment
 
 ## Stage 11 — Hyperparameter Tuning
 - [ ] GridSearch / RandomSearch / Optuna

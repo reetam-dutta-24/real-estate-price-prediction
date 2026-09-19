@@ -1,0 +1,22 @@
+artifact_path: file:///c:/Users/dutta/housing/notebooks/mlruns/1/models/m-3c6d7123c90a4becb45f37823112eb6b/artifacts
+flavors:
+  python_function:
+    data: model.ubj
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.12.5
+  xgboost:
+    code: null
+    data: model.ubj
+    model_class: xgboost.sklearn.XGBRegressor
+    model_format: ubj
+    xgb_version: 3.4.1
+mlflow_version: 3.16.1
+model_id: m-3c6d7123c90a4becb45f37823112eb6b
+model_size_bytes: 3607442
+model_uuid: m-3c6d7123c90a4becb45f37823112eb6b
+prompts: null
+run_id: b7f81adbe60f49979520108a792ce1b3
+utc_time_created: '2026-09-19 01:52:05.452689'

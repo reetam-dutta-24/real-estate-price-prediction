@@ -141,8 +141,11 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] Confirmed model learned sensible real-world relationships (high zipcode value/grade/luxury → higher predicted price)
 - [x] Single-prediction SHAP force plot generated (explains individual predictions — reusable concept for deployed app's "why this price" feature)
 
-## Stage 13 — Experiment Tracking
-- [ ] MLflow setup, log experiments
+## Stage 13 — Experiment Tracking ✅ CLOSED
+- [x] MLflow configured with SQLite backend (file-store deprecated in installed version)
+- [x] 5 runs logged: baseline, Linear Regression, Random Forest, XGBoost (default), XGBoost (tuned)
+- [x] Tuned XGBoost model artifact saved via mlflow.xgboost.log_model()
+- [x] Verified via MLflow UI — all runs comparable side-by-side
 
 ## Stage 14 — Serialization
 - [ ] Save final pipeline + model (joblib)

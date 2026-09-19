@@ -1,3 +1,5 @@
+# NOTE: model artifacts and raw data are force-added despite these patterns,
+# specifically for deployment — see models/*.pkl and data/raw/*.csv committed via git add -f
 .venv/
 __pycache__/
 *.pyc

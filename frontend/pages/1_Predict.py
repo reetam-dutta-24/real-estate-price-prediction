@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from config import BACKEND_URL
+
 from theme import inject_theme, render_sidebar, welcome_box, step_indicator, spec_card
 
 st.set_page_config(page_title="Predict — King County Home Value", layout="wide")
@@ -157,7 +159,7 @@ elif st.session_state.predict_step == 4:
             }
             with st.spinner("Analyzing property..."):
                 try:
-                    response = requests.post("http://127.0.0.1:8000/predict", json=payload, timeout=15)
+                    response = requests.post(f"{BACKEND_URL}/predict", json=payload, timeout=15)
                     if response.status_code == 200:
                         st.session_state.prediction_result = response.json()
                         st.session_state.prediction_area = KC_ZIPCODES.get(s.zipcode, "—")

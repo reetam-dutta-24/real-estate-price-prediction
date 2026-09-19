@@ -170,8 +170,13 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] Market Explorer and Model Insights updated with real trained-model results
 - [ ] Further visual polish ongoing
 
-## Stage 17 — Deployment
-- [ ] Deploy backend + frontend (Render/Railway/HF Spaces)
+## Stage 17 — Deployment (IN PROGRESS)
+- [x] Backend deployed to Render: https://kc-house-price-api.onrender.com
+- [x] Fixed: Windows-only pywin32 dependency (regenerated minimal requirements.txt)
+- [x] Verified: /predict endpoint works correctly via /docs Swagger UI
+- [ ] Frontend deployment to Streamlit Community Cloud
+- [ ] Frontend BACKEND_URL environment variable configured
+- [ ] End-to-end test: live frontend → live backend → real prediction
 
 ## Stage 18 — Documentation & Polish
 - [ ] `reports/feature_dictionary.md` — every feature explained

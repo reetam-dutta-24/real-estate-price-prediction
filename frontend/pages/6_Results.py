@@ -6,15 +6,7 @@ from theme import (inject_theme, render_sidebar, card, factor_bars, percentile_m
                     list_row, pin_map)
 
 st.set_page_config(page_title="Valuation Report", layout="wide")
-st.markdown("💰 **Price per sqft**")
-st.markdown("📊 **Market position**")
-st.markdown("🎯 **How confident is this estimate?**")
-st.markdown("#### 🏘️ Neighborhood Snapshot")
-st.markdown("#### 🏠 Comparable Nearby Sales")
-st.markdown("#### 📍 Nearby Amenities")
-st.markdown("🔍 **What's driving this estimate**")
-st.markdown("#### ⚖️ This Home vs. the Market")
-st.markdown("ℹ️ **About this estimate**")
+
 inject_theme()
 render_sidebar()
 

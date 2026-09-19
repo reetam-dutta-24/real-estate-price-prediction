@@ -147,8 +147,11 @@ Living document. Every stage gets checked off here before we move to the next. I
 - [x] Tuned XGBoost model artifact saved via mlflow.xgboost.log_model()
 - [x] Verified via MLflow UI — all runs comparable side-by-side
 
-## Stage 14 — Serialization
-- [ ] Save final pipeline + model (joblib)
+## Stage 14 — Serialization ✅ CLOSED
+- [x] Fitted preprocessor saved to models/preprocessor.pkl
+- [x] Tuned XGBoost model saved to models/xgb_model.pkl
+- [x] Verified: predictions from reloaded objects match original exactly (np.allclose = True)
+- [x] Model metadata saved to models/model_metadata.json (params, metrics, dataset size)
 
 ## Stage 15 — Backend API
 - [ ] FastAPI service, `/predict` endpoint

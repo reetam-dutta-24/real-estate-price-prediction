@@ -1,0 +1,15 @@
+{
+  "model_type": "XGBoost (tuned)",
+  "best_params": {
+    "subsample": 0.8,
+    "n_estimators": 500,
+    "max_depth": 7,
+    "learning_rate": 0.05,
+    "colsample_bytree": 0.7
+  },
+  "test_rmse_log": 0.15584736006720606,
+  "test_r2": 0.9147867493490507,
+  "test_mae_dollar": 62141.147855583506,
+  "feature_count": 60,
+  "training_rows": 17290
+}

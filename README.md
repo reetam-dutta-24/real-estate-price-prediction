@@ -13,7 +13,7 @@ This project builds a regression pipeline to estimate King County home prices us
 
 ## Live Application
 
-A four-step guided form collects property details, sends them to a live FastAPI backend running the trained model, and returns a full valuation report: estimated price with a confidence range, a SHAP-based breakdown of what's driving the estimate, comparable nearby sales, neighborhood statistics, and a pinned map of nearby amenities.
+A four-step guided form collects property details, sends them to a live FastAPI backend running the trained model, and returns a full valuation report: estimated price with a confidence range, a SHAP-based breakdown of what's driving the estimate, comparable nearby sales, neighborhood statistics, and a pinned map of nearby amenities
 
 ## Dataset
 

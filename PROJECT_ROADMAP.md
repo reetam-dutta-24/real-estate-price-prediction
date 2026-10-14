@@ -255,3 +255,20 @@ Recommended checks include:
 - Reviewing application logs when a request fails.
 
 These checks should be performed after relevant deployment changes. Their completion should be recorded only after the corresponding behavior has been tested.
+
+
+## Model Retraining and Evaluation
+
+Retraining should be treated as a controlled machine learning workflow rather than simply fitting a new estimator.
+
+A repeatable process should include:
+
+1. Validating the input dataset and target definition.
+2. Rebuilding features using the documented transformations.
+3. Splitting the data according to the evaluation strategy.
+4. Fitting preprocessing components and candidate models.
+5. Comparing candidate models using consistent evaluation metrics.
+6. Reviewing errors and checking for leakage.
+7. Saving compatible model artifacts and verifying inference behavior before deployment.
+
+Evaluation results should be recorded alongside the model configuration and data period. A newly trained model should not replace the deployed version solely because it was trained more recently.

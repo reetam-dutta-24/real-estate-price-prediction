@@ -298,3 +298,18 @@ Its main goals are to:
 - Demonstrate the practical integration of machine learning with a deployed software application.
 
 The project combines predictive modeling, feature engineering, evaluation, and application deployment in a single workflow.
+
+
+## Responsible Interpretation of Predictions
+
+Machine learning estimates should be interpreted alongside their limitations and the context of the property being evaluated.
+
+A predicted value:
+
+- Is generated from patterns learned from historical data.
+- May be less reliable for unusual properties or market conditions not well represented in training data.
+- Should be considered alongside relevant comparable properties and available explanations.
+- Does not guarantee the price a property will achieve in a real transaction.
+- Should not be treated as a substitute for independent professional valuation.
+
+Users should consider the estimate as one input into a broader property assessment rather than as a definitive market price.

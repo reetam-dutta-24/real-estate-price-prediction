@@ -113,3 +113,12 @@ However, R² does not directly express the typical prediction error in dollars. 
 
 A strong aggregate R² score does not imply that every individual prediction is equally accurate.
 
+## Interpreting Mean Absolute Error
+
+Mean absolute error (MAE) measures the average absolute difference between predicted and actual target values.
+
+For the reported tuned XGBoost model, the test MAE is **$62,141**. In practical terms, this summarizes the average magnitude of prediction errors in the evaluation set, expressed in dollars.
+
+MAE is useful because it is expressed in the same units as the target variable and is less sensitive to exceptionally large errors than squared-error metrics.
+
+However, an aggregate MAE does not describe the error of every individual property. Individual predictions may differ substantially from their actual sale prices.

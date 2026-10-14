@@ -200,3 +200,10 @@ The backend runs on a free-tier service and may enter an idle state after approx
 These deployment characteristics are documented so that future testing distinguishes cold-start delays from problems with the prediction workflow.
 
 
+## Training and Inference Consistency
+
+The prediction backend must apply the same feature definitions and preprocessing logic used during model training. Inference requests do not contain the target sale price, so feature engineering must be able to operate on property inputs without relying on that target.
+
+The fitted preprocessing and geospatial artifacts are serialized and reused during prediction. Reusing the fitted KMeans and PCA objects avoids fitting new transformations independently for each request and preserves consistency with the training pipeline.
+
+

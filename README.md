@@ -150,3 +150,16 @@ The project documentation is organized into three supporting documents:
 - **[Model Report](reports/model_report.md)** — Model comparison, tuned XGBoost configuration, evaluation results, interpretation findings, and documented limitations.
 
 Together, these documents explain the project from feature construction and leakage-safe preprocessing through model evaluation and deployment. The README provides the high-level overview and setup instructions, while the supporting documents contain the implementation rationale and technical details.
+
+
+
+## Making a Prediction
+
+The application uses a four-step guided form to collect the property details required for a valuation.
+
+After the user submits the form, the Streamlit frontend sends the property information to the FastAPI backend. The backend applies the saved preprocessing pipeline and trained XGBoost model to generate a price estimate.
+
+The results page presents the estimated property value alongside a confidence range, a SHAP-based explanation of the prediction, comparable nearby sales, neighborhood statistics, and a map of nearby amenities.
+
+The backend may take 30–60 seconds to respond to the first request after a period of inactivity because the free-tier service needs to wake up. Subsequent requests are typically faster.
+

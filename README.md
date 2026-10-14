@@ -283,3 +283,18 @@ If a prediction request fails, consider checking the following:
 5. Whether the backend logs indicate a model-loading or inference error.
 
 Hosted services may experience cold starts or temporary availability issues. Check the service response before concluding that the trained model itself is malfunctioning.
+
+## Project Goals
+
+This project explores how machine learning can estimate residential property values using historical housing transaction data.
+
+Its main goals are to:
+
+- Develop a regression workflow for property price prediction.
+- Transform raw property attributes into useful model features.
+- Evaluate candidate models using consistent regression metrics.
+- Make predictions accessible through a user-facing application and API.
+- Improve interpretability through feature contributions and property comparisons.
+- Demonstrate the practical integration of machine learning with a deployed software application.
+
+The project combines predictive modeling, feature engineering, evaluation, and application deployment in a single workflow.

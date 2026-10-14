@@ -64,3 +64,10 @@ King County sale prices and property characteristics may change over time. The m
 
 Evaluating generalization to newer sales would require an appropriate newer dataset and a separate evaluation. Until that evaluation is performed, current-market accuracy remains unverified.
 
+## Baseline as a Reference Point
+
+The mean-prediction baseline provides a reference for evaluating whether the trained models learn useful patterns from the available property features.
+
+The baseline's reported test MAE is approximately $229,795, compared with $62,141 for the tuned XGBoost model. This difference indicates substantially lower average absolute prediction error for the tuned model on the reported evaluation set.
+
+The comparison is specific to this dataset and evaluation procedure. It does not guarantee the same improvement on newer sales or a different housing market.

@@ -171,3 +171,13 @@ The model was trained on 21,613 King County home-sale records from 2014–2015. 
 Evaluation also identified reduced precision for luxury and waterfront properties, where the training data contains fewer examples and prices exhibit greater variability. The model performs more consistently on mainstream properties below $1 million.
 
 These limitations are important when interpreting a prediction. The estimated value is a model-generated estimate based on the available features, not a formal property appraisal or a guarantee of a property's sale price.
+
+
+## Prerequisites
+
+Before running the application locally, ensure that Python is installed and that the project dependencies can be installed using pip.
+
+The project has separate backend and frontend components, each with its own dependency requirements. The backend uses FastAPI to serve predictions, while the frontend uses Streamlit to provide the interactive application.
+
+The trained model and preprocessing artifacts are required for inference. The original dataset is also needed when reproducing the data preparation and model training workflow from scratch.
+

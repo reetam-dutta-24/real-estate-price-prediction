@@ -187,3 +187,16 @@ Living document. Every stage gets checked off here before we move to the next. I
 
 ## Git checkpoint convention
 Commit + push at the end of every numbered stage above. No exceptions.
+
+
+## Deployment Verification Notes
+
+The deployed application uses Streamlit Community Cloud for the frontend and Render for the FastAPI backend.
+
+The configured `BACKEND_URL` allows the frontend to communicate with the deployed prediction API. The application was verified end to end, covering the prediction wizard, backend inference, SHAP explanation, and results page.
+
+The backend runs on a free-tier service and may enter an idle state after approximately 15 minutes without activity. The first request after inactivity can take around 30–60 seconds while the service wakes up.
+
+These deployment characteristics are documented so that future testing distinguishes cold-start delays from problems with the prediction workflow.
+
+

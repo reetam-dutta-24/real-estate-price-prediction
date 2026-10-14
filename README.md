@@ -208,3 +208,20 @@ The project separates exploratory analysis, preprocessing, model training, and a
 The notebooks document the exploratory and experimental stages. The `src/` directory contains reusable preprocessing and training code, while the serialized artifacts in `models/` support prediction through the backend.
 
 The frontend and backend can be run as separate services. Reproducing training and running the deployed-style prediction application are related but different workflows: training requires the dataset and model-building dependencies, whereas inference relies on the fitted artifacts and the prediction API.
+
+
+
+## API Usage Example
+
+The FastAPI service exposes interactive API documentation at `/docs`, where available endpoints and their request and response schemas can be explored.
+
+A typical API-based prediction workflow is:
+
+1. Prepare the property features required by the prediction endpoint.
+2. Submit the request to the running backend.
+3. Receive the estimated property value in the response.
+4. Inspect the returned result alongside the application's explanation and comparison features, where available.
+
+For the deployed service, visit the [API documentation](https://kc-house-price-api.onrender.com/docs).
+
+**Note:** The exact request fields and response structure are defined by the API implementation. Use the live schema rather than assuming that every raw dataset column is accepted directly.

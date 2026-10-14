@@ -112,3 +112,18 @@ Missing values require deliberate treatment because their meaning can vary acros
 
 The feature dictionary describes the meaning of model inputs; the actual imputation methods and fitted preprocessing steps should be verified in the implementation.
 
+
+## Temporal Feature Considerations
+
+Property transactions contain time-related information that can help a model represent changes across the dataset's observation period.
+
+Potential temporal attributes include:
+
+- Sale year and month.
+- Property age at the time of sale.
+- Time elapsed since construction or renovation, where the required dates are available.
+- Interactions between transaction timing and other property characteristics.
+
+Temporal features must be calculated using information available for the property at the relevant prediction point. Their definitions should remain consistent between model training and inference.
+
+The precise list of temporal features should be verified against the implemented feature-engineering pipeline.

@@ -265,3 +265,21 @@ Prediction quality can be affected by:
 - Factors that are not represented in the available features.
 
 The reported test metrics summarize performance on a particular evaluation dataset. They do not guarantee the same accuracy for every property or in every market condition.
+
+
+## Deployment Links and Troubleshooting
+
+The project provides separate entry points for the user interface and backend API.
+
+- **Application:** https://kc-home-value.streamlit.app
+- **Backend API documentation:** https://kc-house-price-api.onrender.com/docs
+
+If a prediction request fails, consider checking the following:
+
+1. Whether the frontend application is accessible.
+2. Whether the backend API responds successfully.
+3. Whether the frontend is configured with the correct backend URL.
+4. Whether the request contains the required input fields.
+5. Whether the backend logs indicate a model-loading or inference error.
+
+Hosted services may experience cold starts or temporary availability issues. Check the service response before concluding that the trained model itself is malfunctioning.

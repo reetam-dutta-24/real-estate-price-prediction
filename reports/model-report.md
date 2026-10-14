@@ -71,3 +71,19 @@ The mean-prediction baseline provides a reference for evaluating whether the tra
 The baseline's reported test MAE is approximately $229,795, compared with $62,141 for the tuned XGBoost model. This difference indicates substantially lower average absolute prediction error for the tuned model on the reported evaluation set.
 
 The comparison is specific to this dataset and evaluation procedure. It does not guarantee the same improvement on newer sales or a different housing market.
+
+
+
+## Error Analysis
+
+Aggregate evaluation metrics summarize overall performance, but they do not reveal how prediction errors vary across different properties.
+
+Useful follow-up analyses include:
+
+- Comparing actual and predicted prices on the held-out test set.
+- Examining the distribution of absolute and percentage errors.
+- Comparing performance across price ranges and property characteristics.
+- Investigating unusually large prediction errors.
+- Checking whether a small subset of expensive properties contributes disproportionately to overall error.
+
+Segment-level findings should be calculated from held-out predictions before being reported as measured results. The existing test metrics provide an overall reference point, not a guarantee of equal accuracy across every property segment.

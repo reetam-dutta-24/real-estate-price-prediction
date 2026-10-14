@@ -250,3 +250,18 @@ The project separates the user-facing application from the machine learning infe
 - **Deployment:** The frontend and backend are hosted separately, so the frontend must communicate with the correct backend URL.
 
 This separation makes it easier to develop, deploy, and troubleshoot individual application components.
+
+
+## Understanding Model Limitations
+
+A predicted property value is an estimate based on patterns learned from historical transaction data.
+
+Prediction quality can be affected by:
+
+- Market conditions that differ from the training period.
+- Unusual properties with few comparable observations.
+- Missing, inaccurate, or inconsistent input attributes.
+- Differences between the training data and the property being evaluated.
+- Factors that are not represented in the available features.
+
+The reported test metrics summarize performance on a particular evaluation dataset. They do not guarantee the same accuracy for every property or in every market condition.

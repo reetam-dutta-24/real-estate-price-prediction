@@ -237,3 +237,16 @@ Property valuation inputs should be limited to the information needed to generat
 - Review the application's data-handling practices before submitting sensitive information.
 
 The prediction describes an estimate produced by a machine learning model; it is not a substitute for a professional appraisal or an independent assessment of a property's current market value.
+
+
+## Project Architecture
+
+The project separates the user-facing application from the machine learning inference service.
+
+- **Frontend:** Provides the interface for entering property details and viewing valuation results.
+- **Backend API:** Handles prediction requests and exposes endpoints through FastAPI.
+- **Machine learning layer:** Uses the trained model and the expected feature representation to generate estimates.
+- **Explanation layer:** Supports interpretation of predictions through feature contributions and property comparisons where implemented.
+- **Deployment:** The frontend and backend are hosted separately, so the frontend must communicate with the correct backend URL.
+
+This separation makes it easier to develop, deploy, and troubleshoot individual application components.

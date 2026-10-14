@@ -142,3 +142,18 @@ Important considerations include:
 - Ensuring that encoded features match the representation expected by the trained estimator.
 
 The selected encoding strategy should reflect the model's requirements and the actual preprocessing implementation. Not every categorical feature requires the same treatment.
+
+
+## Feature Scaling Considerations
+
+Feature scaling transforms numerical attributes to a comparable scale. Depending on the algorithm, this can influence optimization, numerical behavior, and the contribution of differently scaled inputs.
+
+Important considerations include:
+
+- Identifying which transformations are required by the selected estimator.
+- Fitting learned scaling parameters on training data only.
+- Applying the same fitted transformation during inference.
+- Avoiding unnecessary transformations when the estimator does not require them.
+- Keeping the transformed feature representation consistent with the trained model.
+
+The exact scaling methods used by this project should be verified against the preprocessing pipeline.

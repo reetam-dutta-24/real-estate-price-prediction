@@ -99,3 +99,16 @@ The geospatial features capture location at multiple levels:
 - **Amenity proximity components:** `amenity_proximity_pc1`, `amenity_proximity_pc2`, and `amenity_proximity_pc3` represent compressed information from the landmark-distance features.
 
 These groups encode different types of location information and should not be treated as interchangeable.
+
+
+## Handling Missing Values
+
+Missing values require deliberate treatment because their meaning can vary across property attributes.
+
+- **Numeric attributes:** Missing measurements should be handled using the preprocessing strategy expected by the model.
+- **Categorical attributes:** Missing categories should be processed consistently with the training-time encoding strategy.
+- **Inference inputs:** User-provided property details should follow the same validation and transformation rules used during model development.
+- **Feature consistency:** Missing-value handling must not introduce a different feature representation between training and prediction.
+
+The feature dictionary describes the meaning of model inputs; the actual imputation methods and fitted preprocessing steps should be verified in the implementation.
+

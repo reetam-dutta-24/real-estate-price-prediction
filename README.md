@@ -190,3 +190,11 @@ The SHAP-based explanation identifies how individual input features influence th
 
 These elements serve different purposes: the model generates the estimate, SHAP explains feature contributions, and the additional geographic information helps users explore the surrounding area.
 
+
+### Why XGBoost Was Selected
+
+The project compared Linear Regression, Random Forest, and XGBoost rather than relying on a single algorithm from the beginning.
+
+Linear Regression provides a baseline for understanding how far a linear model can go with the engineered features. Random Forest introduces an ensemble of decision trees, while XGBoost provides a gradient-boosted tree approach.
+
+The tuned XGBoost model was selected because it achieved the strongest reported test performance among the compared models. Its selection was based on measured results rather than algorithm popularity alone.

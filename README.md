@@ -163,3 +163,11 @@ The results page presents the estimated property value alongside a confidence ra
 
 The backend may take 30–60 seconds to respond to the first request after a period of inactivity because the free-tier service needs to wake up. Subsequent requests are typically faster.
 
+
+## Model Limitations
+
+The model was trained on 21,613 King County home-sale records from 2014–2015. Its predictions therefore reflect historical market data and should not be interpreted as guaranteed estimates of current property values.
+
+Evaluation also identified reduced precision for luxury and waterfront properties, where the training data contains fewer examples and prices exhibit greater variability. The model performs more consistently on mainstream properties below $1 million.
+
+These limitations are important when interpreting a prediction. The estimated value is a model-generated estimate based on the available features, not a formal property appraisal or a guarantee of a property's sale price.

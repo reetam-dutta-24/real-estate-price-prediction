@@ -181,3 +181,12 @@ The project has separate backend and frontend components, each with its own depe
 
 The trained model and preprocessing artifacts are required for inference. The original dataset is also needed when reproducing the data preparation and model training workflow from scratch.
 
+
+## Understanding Prediction Results
+
+The valuation report combines a predicted property value with supporting context to help users interpret the estimate.
+
+The SHAP-based explanation identifies how individual input features influence the model's prediction. Comparable nearby sales and neighborhood statistics provide additional local context, while the amenities map visualizes nearby points of interest.
+
+These elements serve different purposes: the model generates the estimate, SHAP explains feature contributions, and the additional geographic information helps users explore the surrounding area.
+

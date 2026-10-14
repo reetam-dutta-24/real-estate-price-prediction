@@ -225,3 +225,15 @@ A typical API-based prediction workflow is:
 For the deployed service, visit the [API documentation](https://kc-house-price-api.onrender.com/docs).
 
 **Note:** The exact request fields and response structure are defined by the API implementation. Use the live schema rather than assuming that every raw dataset column is accepted directly.
+
+
+## Privacy and Input Handling
+
+Property valuation inputs should be limited to the information needed to generate an estimate.
+
+- Submit property attributes through the application's intended input interface.
+- Avoid including personal or confidential information in free-text fields or diagnostic reports.
+- Treat model predictions as estimates rather than verified property valuations.
+- Review the application's data-handling practices before submitting sensitive information.
+
+The prediction describes an estimate produced by a machine learning model; it is not a substitute for a professional appraisal or an independent assessment of a property's current market value.

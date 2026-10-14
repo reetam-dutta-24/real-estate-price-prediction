@@ -102,3 +102,14 @@ Hyperparameter tuning should not repeatedly optimize against the final test set.
 
 The exact split proportions and evaluation protocol should be taken from the project's training code and experiment records.
 
+
+## Interpreting the R² Score
+
+The coefficient of determination, R², measures how much better a regression model performs relative to predicting the mean target value on the evaluated dataset, under the standard definition.
+
+An R² value of 0.9148 indicates that the model accounts for approximately 91.48% of the target variance relative to that reference on the reported evaluation set.
+
+However, R² does not directly express the typical prediction error in dollars. It should therefore be interpreted alongside metrics such as mean absolute error and root mean squared error.
+
+A strong aggregate R² score does not imply that every individual prediction is equally accurate.
+

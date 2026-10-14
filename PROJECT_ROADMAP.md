@@ -227,3 +227,16 @@ Training and inference depend on using compatible model artifacts and preprocess
 - When retraining the model, validate the resulting artifacts before using them in the deployed application.
 
 These practices help reduce inconsistencies between the training workflow and production predictions.
+
+
+## Data Leakage Prevention
+
+Preventing data leakage is essential for obtaining realistic model evaluation results.
+
+- Split the dataset before fitting preprocessing transformations.
+- Fit learned transformations using training data only.
+- Apply the fitted transformations to validation and test data without refitting them.
+- Ensure that target-derived features are generated without using information unavailable at prediction time.
+- Keep test data separate from model selection and hyperparameter tuning.
+
+Following these practices helps ensure that evaluation metrics reflect generalization to unseen observations rather than information inadvertently learned from the evaluation data.

@@ -140,3 +140,13 @@ The frontend defaults to calling the backend at `http://127.0.0.1:8000`. To poin
 
 See [`PROJECT_ROADMAP.md`](PROJECT_ROADMAP.md) for the full stage-by-stage build log, [`reports/feature_dictionary.md`](reports/feature_dictionary.md) for feature definitions, and [`reports/model_report.md`](reports/model_report.md) for complete model performance details.
 
+
+## Documentation Guide
+
+The project documentation is organized into three supporting documents:
+
+- **[Project Roadmap](PROJECT_ROADMAP.md)** — Stage-by-stage development progress, preprocessing decisions, model training, evaluation, deployment, and remaining tasks.
+- **[Feature Dictionary](reports/feature_dictionary.md)** — Definitions of raw and engineered features, including temporal, structural, quality, and geospatial features.
+- **[Model Report](reports/model_report.md)** — Model comparison, tuned XGBoost configuration, evaluation results, interpretation findings, and documented limitations.
+
+Together, these documents explain the project from feature construction and leakage-safe preprocessing through model evaluation and deployment. The README provides the high-level overview and setup instructions, while the supporting documents contain the implementation rationale and technical details.

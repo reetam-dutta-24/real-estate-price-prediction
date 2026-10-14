@@ -207,3 +207,10 @@ The prediction backend must apply the same feature definitions and preprocessing
 The fitted preprocessing and geospatial artifacts are serialized and reused during prediction. Reusing the fitted KMeans and PCA objects avoids fitting new transformations independently for each request and preserves consistency with the training pipeline.
 
 
+### Interpreting SHAP Explanations
+
+SHAP explanations help connect an individual prediction to the features used by the trained model. A feature's contribution indicates how it shifts the prediction relative to the explainer's reference output.
+
+A positive contribution pushes the explained output higher, while a negative contribution pushes it lower. The magnitude describes the size of the contribution on the output scale used by the explainer.
+
+These contributions describe the model's behavior; they do not establish that a feature causes a real-world change in property value.

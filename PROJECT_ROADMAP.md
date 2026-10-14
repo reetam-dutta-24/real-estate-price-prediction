@@ -214,3 +214,16 @@ SHAP explanations help connect an individual prediction to the features used by 
 A positive contribution pushes the explained output higher, while a negative contribution pushes it lower. The magnitude describes the size of the contribution on the output scale used by the explainer.
 
 These contributions describe the model's behavior; they do not establish that a feature causes a real-world change in property value.
+
+
+## Model Artifact Management
+
+Training and inference depend on using compatible model artifacts and preprocessing components.
+
+- Keep serialized artifacts aligned with the code that loads them.
+- Preserve the transformations and feature ordering expected by the trained estimator.
+- Avoid replacing individual preprocessing components without checking their compatibility with the remaining pipeline.
+- Verify that the required artifacts are available in the deployment environment before running inference.
+- When retraining the model, validate the resulting artifacts before using them in the deployed application.
+
+These practices help reduce inconsistencies between the training workflow and production predictions.

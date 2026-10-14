@@ -198,3 +198,13 @@ The project compared Linear Regression, Random Forest, and XGBoost rather than r
 Linear Regression provides a baseline for understanding how far a linear model can go with the engineered features. Random Forest introduces an ensemble of decision trees, while XGBoost provides a gradient-boosted tree approach.
 
 The tuned XGBoost model was selected because it achieved the strongest reported test performance among the compared models. Its selection was based on measured results rather than algorithm popularity alone.
+
+
+
+### Reproducing the Machine Learning Workflow
+
+The project separates exploratory analysis, preprocessing, model training, and application serving into distinct components.
+
+The notebooks document the exploratory and experimental stages. The `src/` directory contains reusable preprocessing and training code, while the serialized artifacts in `models/` support prediction through the backend.
+
+The frontend and backend can be run as separate services. Reproducing training and running the deployed-style prediction application are related but different workflows: training requires the dataset and model-building dependencies, whereas inference relies on the fitted artifacts and the prediction API.

@@ -74,3 +74,16 @@ Every feature used in the King County Home Value model, what it means, and why i
 
 ## Final Model Input
 **46 raw/engineered columns → 60 columns after preprocessing** (RobustScaler on numerics, passthrough on binary flags, one-hot encoding expands `location_cluster` from 1 column to 15).
+
+
+## Feature Engineering Principles
+
+The engineered features represent several complementary aspects of a property:
+
+- **Temporal features** capture the timing of a sale and the age or renovation history of a home.
+- **Structural features** describe size relationships and differences between a property and nearby houses.
+- **Quality features** represent construction grade, condition, view, and selected luxury indicators.
+- **Geospatial features** capture proximity to urban centers, neighborhood clusters, and landmarks.
+- **Interaction features** represent combinations of attributes whose joint relationship with price may differ from their individual effects.
+
+Feature engineering expands the information available to the model; it does not guarantee that every derived feature independently improves predictive performance.

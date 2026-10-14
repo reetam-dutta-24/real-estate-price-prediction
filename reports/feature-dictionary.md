@@ -157,3 +157,19 @@ Important considerations include:
 - Keeping the transformed feature representation consistent with the trained model.
 
 The exact scaling methods used by this project should be verified against the preprocessing pipeline.
+
+
+## Feature Interactions
+
+A feature interaction occurs when the relationship between an input attribute and the target depends on another attribute.
+
+For housing data, potential interactions to investigate include:
+
+- Property size and location.
+- Property age and renovation status.
+- Living area and the number of bedrooms.
+- Waterfront or view characteristics and neighborhood context.
+
+These are examples of possible relationships, not claims that every interaction is explicitly engineered in the current pipeline.
+
+An interaction should be retained when supported by the data and validated through appropriate evaluation. Tree-based models can learn many nonlinear relationships and interactions without requiring every combination to be manually constructed.

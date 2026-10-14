@@ -272,3 +272,19 @@ A repeatable process should include:
 7. Saving compatible model artifacts and verifying inference behavior before deployment.
 
 Evaluation results should be recorded alongside the model configuration and data period. A newly trained model should not replace the deployed version solely because it was trained more recently.
+
+
+## Reproducibility Considerations
+
+Reproducibility makes it easier to understand, validate, and maintain a machine learning workflow.
+
+Recommended practices include:
+
+- Recording the dataset version or observation period used for training.
+- Keeping preprocessing and feature-generation logic consistent.
+- Recording model configurations and evaluation metrics.
+- Managing dependencies through project environment files.
+- Saving compatible model artifacts with clear version information.
+- Documenting any changes that affect training or inference behavior.
+
+Where randomness affects splitting, sampling, or model training, record and control random seeds when supported. Reproducibility also depends on data availability, software versions, and the execution environment.

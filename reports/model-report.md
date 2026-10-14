@@ -55,3 +55,12 @@ The final tuned XGBoost model achieved a test RMSE of 0.1558 on the log-price sc
 
 These metrics describe different aspects of model performance and should be interpreted together. In particular, the log-scale RMSE and dollar-scale MAE use different scales and should not be compared numerically as though they measured the same quantity.
 
+
+## Generalization Considerations
+
+The reported test metrics describe performance on the held-out test data drawn from the project's historical dataset. They do not establish equivalent accuracy on properties sold in later years or in other real estate markets.
+
+King County sale prices and property characteristics may change over time. The model's 2014–2015 training data therefore limits the conclusions that can be drawn about present-day valuations.
+
+Evaluating generalization to newer sales would require an appropriate newer dataset and a separate evaluation. Until that evaluation is performed, current-market accuracy remains unverified.
+

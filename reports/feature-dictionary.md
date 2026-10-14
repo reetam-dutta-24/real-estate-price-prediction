@@ -127,3 +127,18 @@ Potential temporal attributes include:
 Temporal features must be calculated using information available for the property at the relevant prediction point. Their definitions should remain consistent between model training and inference.
 
 The precise list of temporal features should be verified against the implemented feature-engineering pipeline.
+
+
+
+## Categorical Feature Encoding
+
+Categorical attributes represent discrete groups rather than continuous numerical measurements. Before they can be used by a model, they may require an appropriate encoding strategy.
+
+Important considerations include:
+
+- Applying a consistent encoding scheme during training and inference.
+- Handling categories that were not observed during training.
+- Avoiding accidental interpretation of arbitrary category IDs as meaningful numerical order.
+- Ensuring that encoded features match the representation expected by the trained estimator.
+
+The selected encoding strategy should reflect the model's requirements and the actual preprocessing implementation. Not every categorical feature requires the same treatment.

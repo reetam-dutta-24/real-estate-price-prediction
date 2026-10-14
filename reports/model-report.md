@@ -43,3 +43,15 @@ colsample_bytree: 0.7
 
 ## Reproducibility
 Full pipeline reproducible via `src/preprocess.py` and `src/train.py`. Experiment history tracked in MLflow (`mlflow.db`, SQLite backend, 5 logged runs).
+
+
+## Interpreting the Evaluation Metrics
+
+The final tuned XGBoost model achieved a test RMSE of 0.1558 on the log-price scale, a test MAE of $62,141, and a test R² of 0.9148.
+
+- **RMSE (log scale):** Measures the square root of the average squared prediction error on the transformed target. Squaring the errors makes larger residuals contribute more heavily to the metric.
+- **MAE (dollars):** Measures the average absolute prediction error expressed in dollars, making the reported value easier to interpret in the original price domain.
+- **R²:** Measures the proportion of variance in the test target explained by the model relative to a mean-prediction baseline.
+
+These metrics describe different aspects of model performance and should be interpreted together. In particular, the log-scale RMSE and dollar-scale MAE use different scales and should not be compared numerically as though they measured the same quantity.
+

@@ -240,3 +240,18 @@ Preventing data leakage is essential for obtaining realistic model evaluation re
 - Keep test data separate from model selection and hyperparameter tuning.
 
 Following these practices helps ensure that evaluation metrics reflect generalization to unseen observations rather than information inadvertently learned from the evaluation data.
+
+## API Reliability Checks
+
+The deployed prediction service should be checked for both availability and correct behavior.
+
+Recommended checks include:
+
+- Confirming that the API documentation endpoint is reachable.
+- Verifying that valid prediction requests return the expected response structure.
+- Checking how invalid or incomplete inputs are handled.
+- Confirming that required model artifacts load successfully.
+- Testing frontend-to-backend communication using the configured backend URL.
+- Reviewing application logs when a request fails.
+
+These checks should be performed after relevant deployment changes. Their completion should be recorded only after the corresponding behavior has been tested.

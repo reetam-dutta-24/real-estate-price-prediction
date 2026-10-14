@@ -87,3 +87,18 @@ Useful follow-up analyses include:
 - Checking whether a small subset of expensive properties contributes disproportionately to overall error.
 
 Segment-level findings should be calculated from held-out predictions before being reported as measured results. The existing test metrics provide an overall reference point, not a guarantee of equal accuracy across every property segment.
+
+
+
+## Train, Validation, and Test Sets
+
+Training, validation, and test data serve different purposes in a machine learning workflow.
+
+- **Training set:** Used to fit the model and any learned preprocessing components.
+- **Validation data:** Used to compare candidate configurations and guide model selection.
+- **Test set:** Used to estimate final performance on observations excluded from the model-development process.
+
+Hyperparameter tuning should not repeatedly optimize against the final test set. Keeping the test set separate helps reduce optimistic performance estimates and provides a more credible measure of generalization.
+
+The exact split proportions and evaluation protocol should be taken from the project's training code and experiment records.
+

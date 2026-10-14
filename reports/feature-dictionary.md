@@ -87,3 +87,15 @@ The engineered features represent several complementary aspects of a property:
 - **Interaction features** represent combinations of attributes whose joint relationship with price may differ from their individual effects.
 
 Feature engineering expands the information available to the model; it does not guarantee that every derived feature independently improves predictive performance.
+
+
+### Geospatial Feature Groups
+
+The geospatial features capture location at multiple levels:
+
+- **Urban-center distances:** `distance_to_seattle` and `distance_to_bellevue` represent proximity to major urban hubs.
+- **Neighborhood clusters:** `location_cluster` assigns properties to groups based on their geographic coordinates.
+- **Target-derived location encodings:** `zipcode_encoded` and `cluster_avg_price` summarize training-set price information by location.
+- **Amenity proximity components:** `amenity_proximity_pc1`, `amenity_proximity_pc2`, and `amenity_proximity_pc3` represent compressed information from the landmark-distance features.
+
+These groups encode different types of location information and should not be treated as interchangeable.
